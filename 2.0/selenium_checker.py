@@ -4,7 +4,7 @@
 from selenium import webdriver
 import time
 import os
-
+import requests
 
 class SeleniumChecker(object):
     URL = 'https://secure2.www.apple.com.cn/shop/order/detail/506586/W885971562?_si=000010'
@@ -16,9 +16,9 @@ class SeleniumChecker(object):
 
     def __init__(self):
         self.driver = webdriver.Chrome()
-        self.firstLogin()
+        self.login()
 
-    def firstLogin(self):
+    def login(self):
         self.driver.get(self.URL)
         time.sleep(10)
 
@@ -35,15 +35,18 @@ class SeleniumChecker(object):
 
     def getData(self):
         try:
-            self.driver.get(self.URL) # ask url
-            time.sleep(10) #waiting for web loading
+            self.driver.get(self.URL) 
+            time.sleep(10) 
             element = self.driver.find_element_by_class_name('rs-od-itemstatus')
             print(element.text)
             return element.text
-        except (SystemExit, KeyboardInterrupt):
-            raise
         except Exception as e:
+            # requests.get('http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + '任务异常1Exception' + '&template=html')
+            print("1Exception")
             print(e)
+            print("begin to relogin...")
+            self.login()
+            return self.getData()
         return ""
 
 

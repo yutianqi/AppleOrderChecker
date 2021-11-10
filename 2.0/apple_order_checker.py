@@ -34,11 +34,13 @@ def main():
                     'http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + newStatus + '&template=html')
                 SENT_MSG.append(newStatus)
         except Exception as e:
-            print("Exception")
+            # requests.get('http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + '任务异常2Exception' + '&template=html')
+            print("2Exception")
+            print(e)
         time.sleep(CHECK_PERIOD_IN_SECOND)
 
 
 if '__main__' == __name__:
-    # main()
-    publisher = AlarmPublisher("订单状态变更提醒")
-    publisher.push("订单状态变更提醒")
+    main()
+    # publisher = AlarmPublisher("订单状态变更提醒")
+    # publisher.push("订单状态变更提醒")
