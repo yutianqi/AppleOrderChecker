@@ -25,19 +25,22 @@ def main():
 
     while True:
         try:
-            print("begin to check")
+            printLog("begin to check")
             newStatus = checker.getData()
-            print(time.strftime("%Y-%m-%d %H:%M:%S",
-                  time.localtime()) + " 当前状态：" + newStatus)
+            printLog(" 当前状态：" + newStatus)
             if newStatus not in SENT_MSG:
                 requests.get(
                     'http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + newStatus + '&template=html')
                 SENT_MSG.append(newStatus)
         except Exception as e:
             # requests.get('http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + '任务异常2Exception' + '&template=html')
-            print("2Exception")
+            printLog("2Exception")
             print(e)
         time.sleep(CHECK_PERIOD_IN_SECOND)
+
+
+def printLog(logMsg):
+    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + logMsg)
 
 
 if '__main__' == __name__:
