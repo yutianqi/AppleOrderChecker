@@ -13,4 +13,4 @@ class TimeUtils(object):
         pass
 
     def getDataTime(self):
-        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime() 
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())

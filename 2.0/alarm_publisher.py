@@ -3,26 +3,24 @@
 import requests
 import re
 import time
-
+from config_utils import ConfigUtils
+from log_utils import LogUtils
 
 class AlarmPublisher(object):
 
-    """my first class: FooClass"""
-
-    version = 0.1
+    configUtils = None
 
     sent_msgs = []
 
     default_title = ''
 
-    token = "xxx"
+    token = ""
 
     BASE_URL = 'http://pushplus.hxtrip.com/send?token='
 
-    ENABLE_DUPLICATE_MESSAGE = True
-
     def __init__(self, default_title):
-        """constructor"""
+        self.configUtils = ConfigUtils('conf.ini')
+        self.token = self.configUtils.get("pushplus", "token")
         self.default_title = default_title
 
     def getRequestUrl(self, title, content, template):
@@ -31,12 +29,16 @@ class AlarmPublisher(object):
         return url
 
     def push(self, msg):
-        # print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + " " + msg)
-        if not self.ENABLE_DUPLICATE_MESSAGE and msg in self.sent_msgs:
-            # print("ignore duplicate message: " + msg)
+        if msg in self.sent_msgs:
+            # 不推送重复消息
             return
-        self.sent_msgs.append(msg)
         url = self.getRequestUrl(self.default_title, msg, 'html')
         resp = requests.get(url)
         if 200 != resp.status_code:
-            print("消息推送失败")
+            LogUtils.info("消息推送失败")
+            return
+        self.sent_msgs.append(msg)
+
+
+# alarmPublisher = AlarmPublisher("Apple订单状态变更提醒")
+# alarmPublisher.push('test')

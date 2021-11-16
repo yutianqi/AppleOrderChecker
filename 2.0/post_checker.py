@@ -42,10 +42,7 @@ class PostChecker(object):
                 continue
             if line.startswith("GET") or line.startswith("POST"):
                 continue
-            # print("---" + line)
             tempArray = line.split(": ")
-            # print(tempArray[0])
-            # print(tempArray[1])
             header[tempArray[0]] = tempArray[1]
 
         return header

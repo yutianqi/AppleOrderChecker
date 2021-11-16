@@ -9,12 +9,8 @@ import os
 from alarm_publisher import AlarmPublisher
 # from post_checker import PostChecker
 from selenium_checker import SeleniumChecker
+from log_utils import LogUtils
 
-
-# SENT_MSG = ['预计送达日期 2021/11/26 - 2021/12/03']
-SENT_MSG = []
-
-CURRENT_STATUS = ""
 
 CHECK_PERIOD_IN_SECOND = 5 * 60
 
@@ -22,28 +18,17 @@ CHECK_PERIOD_IN_SECOND = 5 * 60
 def main():
     # checker = PostChecker()
     checker = SeleniumChecker()
-
+    publisher = AlarmPublisher("Apple订单状态变更提醒")
     while True:
         try:
-            printLog("begin to check")
+            LogUtils.info("begin to check")
             newStatus = checker.getData()
-            printLog(" 当前状态：" + newStatus)
-            if newStatus not in SENT_MSG:
-                requests.get(
-                    'http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + newStatus + '&template=html')
-                SENT_MSG.append(newStatus)
+            # LogUtils.info(" 当前状态：" + newStatus)
+            publisher.push(newStatus)
         except Exception as e:
-            # requests.get('http://pushplus.hxtrip.com/send?token=10acadfe5ee744938a0444d2ade9066f&title=订单状态变更提醒&content=' + '任务异常2Exception' + '&template=html')
-            printLog("2Exception")
-            print(e)
+            LogUtils.info(e)
         time.sleep(CHECK_PERIOD_IN_SECOND)
-
-
-def printLog(logMsg):
-    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + logMsg)
 
 
 if '__main__' == __name__:
     main()
-    # publisher = AlarmPublisher("订单状态变更提醒")
-    # publisher.push("订单状态变更提醒")
