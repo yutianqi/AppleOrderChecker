@@ -53,6 +53,7 @@ class SeleniumChecker(object):
         time.sleep(3)
         LogUtils.info("-> click sign-in")
         self.driver.find_element_by_id('sign-in').click()
+        input("-> 请在浏览器中输入二次认证验证码，并勾选信任当前浏览器，完成后请按回车")
         LogUtils.info("-> sleep 30s")
         time.sleep(30)
         LogUtils.info("finished to login...")
@@ -71,9 +72,8 @@ class SeleniumChecker(object):
         time.sleep(3)
         LogUtils.info("-> click sign-in")
         self.driver.find_element_by_id('sign-in').click()
-        LogUtils.info("-> sleep 20s")
-        time.sleep(20)
-        input("-> 请在浏览器中输入二次认证验证码，并勾选信任当前浏览器，完成后请按回车")
+        LogUtils.info("-> sleep 30s")
+        time.sleep(30)
         LogUtils.info("finished to login...")
 
     def getData(self):
