@@ -35,7 +35,7 @@ class AlarmPublisher(object):
         url = self.getRequestUrl(self.default_title, msg, 'html')
         resp = requests.get(url)
         if 200 != resp.status_code:
-            LogUtils.info("消息推送失败 STATUS_CODE:" + resp.status_code + " URL:" + url)
+            LogUtils.info("消息推送失败 STATUS_CODE:" + str(resp.status_code) + " URL:" + url)
             return
         self.sent_msgs.append(msg)
 
